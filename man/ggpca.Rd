@@ -17,6 +17,8 @@ variable to PCA plot or not. Defaults to NULL (no fitting).}
 \item{group}{Factor name for centroid grouping.}
 
 \item{axes}{Length=2 vector with PCA axes to represent. Defaults to c(1,2).}
+
+\item{centr}{Define if group centroids might be represented. Defaults FALSE.}
 }
 \description{
 \code{microDA} function from the \code{funs_ggplot} group (expanding \code{ggplot2} functionality).\cr
