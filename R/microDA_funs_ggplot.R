@@ -151,10 +151,11 @@ make_sunburst <- function(sunreads, sunfeat, nranks, aggregate = T, plottype = 1
 #' variable to PCA plot or not. Defaults to NULL (no fitting).
 #' @param group Factor name for centroid grouping.
 #' @param axes Length=2 vector with PCA axes to represent. Defaults to c(1,2).
+#' @param centr Define if group centroids might be represented. Defaults FALSE.
 #' @keywords PCA envfit ggplot
 #' @export
 
-ggpca <- function(pca, pdata, fit = NULL, group, axes = c(1,2)){
+ggpca <- function(pca, pdata, fit = NULL, group, axes = c(1,2), centr = FALSE){
   uscores <- data.frame(pca$x)
   uscores1 <- merge(pdata, uscores, by = "row.names") %>% column_to_rownames("Row.names")
 
@@ -162,24 +163,31 @@ ggpca <- function(pca, pdata, fit = NULL, group, axes = c(1,2)){
   comp2 <- uscores1[,ncol(pdata) + axes[2], drop = F]
 
   selected_pcs <- cbind(comp1, comp2)
-  centroids <- aggregate(selected_pcs, by = list(uscores1[,group]), mean)
-  names(centroids) <- c(group, "CenC1", "CenC2")
-  uscores1 <- merge(rownames_to_column(uscores1), centroids, by = group) %>% column_to_rownames("rowname")
-
+  
+  if(isTRUE(centr)){
+    centroids <- aggregate(selected_pcs, by = list(uscores1[,group]), mean)
+    names(centroids) <- c(group, "CenC1", "CenC2")
+    uscores1 <- merge(rownames_to_column(uscores1), centroids, by = group) %>% column_to_rownames("rowname")
+  }
   exp.var <- summary(pca)$importance["Proportion of Variance", axes]
 
   if(!is.null(fit)){
     set.seed(17)
     p <- gg_envfit(pca, dplyr::select(pdata, fit), groups = pdata[,group], choices = c(1,2), perm = 999,
                    alpha = 0.7, pt.size = 1.5, arrow.col = "blue", plot = F)
-    p_plot <- p$plot + geom_point(data = centroids, aes(x = CenC1, y = CenC2), size = 5) + labs(color = group)
+    if(isTRUE(centr)){
+      p_plot <- p$plot + geom_point(data = centroids, aes(x = CenC1, y = CenC2), size = 5) + labs(color = group)
+    } else{
+      p_plot <- p$plot
   } else{
-    p_plot <- ggplot(uscores1, aes_string(x =colnames(comp1), y = colnames(comp2), col = group)) +
-      geom_point(size = 3) +
-      geom_point(data = centroids, aes_string(x = "CenC1", y = "CenC2"), size = 5) +
-      geom_segment(aes_string(x = colnames(comp1), y = colnames(comp2), xend = "CenC1", yend = "CenC2")) +
-      xlab(paste0(colnames(comp1), " (", round(exp.var[1] * 100, 2), "%)")) +
-      ylab(paste0(colnames(comp2), " (", round(exp.var[2] * 100, 2), "%)"))
+      p_plot <- ggplot(uscores1, aes_string(x =colnames(comp1), y = colnames(comp2), col = group)) +
+        geom_point(size = 3) +
+        xlab(paste0(colnames(comp1), " (", round(exp.var[1] * 100, 2), "%)")) +
+        ylab(paste0(colnames(comp2), " (", round(exp.var[2] * 100, 2), "%)"))
+      if(isTRUE(centr)){
+        p_plot <- p_plot +
+          geom_point(data = centroids, aes_string(x = "CenC1", y = "CenC2"), size = 5) +
+          geom_segment(aes_string(x = colnames(comp1), y = colnames(comp2), xend = "CenC1", yend = "CenC2"))
   }
   return(p_plot)
 }
