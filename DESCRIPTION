@@ -28,7 +28,6 @@ Imports:
     phyloseq,
     microbiome,
     vegan,
-    pime,
     nortest,
     DESeq2,
     ALDEx2,
