@@ -31,7 +31,6 @@ Imports:
     nortest,
     DESeq2,
     ALDEx2,
-    metagenomeSeq,
     sunburstR,
     ellipse,
     VennDiagram,
