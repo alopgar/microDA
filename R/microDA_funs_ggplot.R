@@ -179,6 +179,7 @@ ggpca <- function(pca, pdata, fit = NULL, group, axes = c(1,2), centr = FALSE){
       p_plot <- p$plot + geom_point(data = centroids, aes(x = CenC1, y = CenC2), size = 5) + labs(color = group)
     } else{
       p_plot <- p$plot
+    }
   } else{
       p_plot <- ggplot(uscores1, aes_string(x =colnames(comp1), y = colnames(comp2), col = group)) +
         geom_point(size = 3) +
@@ -188,6 +189,7 @@ ggpca <- function(pca, pdata, fit = NULL, group, axes = c(1,2), centr = FALSE){
         p_plot <- p_plot +
           geom_point(data = centroids, aes_string(x = "CenC1", y = "CenC2"), size = 5) +
           geom_segment(aes_string(x = colnames(comp1), y = colnames(comp2), xend = "CenC1", yend = "CenC2"))
+      }
   }
   return(p_plot)
 }
