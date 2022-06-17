@@ -199,11 +199,7 @@ make_sunburst <- function(sunreads, sunfeat, nranks, aggregate = T, plottype = 1
 #' variable to PCA plot or not. Defaults to NULL (no fitting).
 #' @param group Factor name for centroid grouping.
 #' @param axes Length=2 vector with PCA axes to represent. Defaults to c(1,2).
-<<<<<<< HEAD
 #' @param centr Define if group centroids might be represented. Defaults to FALSE.
-=======
-#' @param centr Define if group centroids might be represented. Defaults FALSE.
->>>>>>> 23f50d155fa2b9fd1fb2ccfe1412524ecec1364f
 #' @keywords PCA envfit ggplot
 #' @export
 
@@ -215,11 +211,7 @@ ggpca <- function(pca, pdata, fit = NULL, group, axes = c(1,2), centr = FALSE){
   comp2 <- uscores1[,ncol(pdata) + axes[2], drop = F]
 
   selected_pcs <- cbind(comp1, comp2)
-<<<<<<< HEAD
-
-=======
   
->>>>>>> 23f50d155fa2b9fd1fb2ccfe1412524ecec1364f
   if(isTRUE(centr)){
     centroids <- aggregate(selected_pcs, by = list(uscores1[,group]), mean)
     names(centroids) <- c(group, "CenC1", "CenC2")
@@ -237,7 +229,6 @@ ggpca <- function(pca, pdata, fit = NULL, group, axes = c(1,2), centr = FALSE){
       p_plot <- p$plot
     }
   } else{
-<<<<<<< HEAD
     p_plot <- ggplot(uscores1, aes_string(x =colnames(comp1), y = colnames(comp2), col = group)) +
       geom_point(size = 3) +
       xlab(paste0(colnames(comp1), " (", round(exp.var[1] * 100, 2), "%)")) +
@@ -247,7 +238,6 @@ ggpca <- function(pca, pdata, fit = NULL, group, axes = c(1,2), centr = FALSE){
         geom_point(data = centroids, aes_string(x = "CenC1", y = "CenC2"), size = 5) +
         geom_segment(aes_string(x = colnames(comp1), y = colnames(comp2), xend = "CenC1", yend = "CenC2"))
     }
-=======
       p_plot <- ggplot(uscores1, aes_string(x =colnames(comp1), y = colnames(comp2), col = group)) +
         geom_point(size = 3) +
         xlab(paste0(colnames(comp1), " (", round(exp.var[1] * 100, 2), "%)")) +
@@ -257,7 +247,6 @@ ggpca <- function(pca, pdata, fit = NULL, group, axes = c(1,2), centr = FALSE){
           geom_point(data = centroids, aes_string(x = "CenC1", y = "CenC2"), size = 5) +
           geom_segment(aes_string(x = colnames(comp1), y = colnames(comp2), xend = "CenC1", yend = "CenC2"))
       }
->>>>>>> 23f50d155fa2b9fd1fb2ccfe1412524ecec1364f
   }
   return(p_plot)
 }
