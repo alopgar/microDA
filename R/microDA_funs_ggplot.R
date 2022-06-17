@@ -53,8 +53,6 @@ count_distrib <- function(data){
   if (nrow(data) < 500) {syseq <- 200}
   else syseq <- 500
   ggcounts <- ggplot(counts_dist_ggdat) +
-    aes(x = reorder(samples, -order), y = value, fill = variable) +
-  ggcounts <- ggplot(counts_dist_ggdat) + 
     aes(x = reorder(samples, -order), y = value, fill = variable) + 
     geom_bar(stat = "identity", width = 1, position = position_stack(reverse = T)) +
     xlab("Samples") + ylab("Number of features") +
