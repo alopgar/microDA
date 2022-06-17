@@ -60,7 +60,6 @@ count_distrib <- function(data){
     xlab("Samples") + ylab("Number of features") +
     theme(axis.text.x = element_blank(), axis.title = element_text(size=14, face="bold")) +
     scale_y_continuous(breaks = seq(0, nrow(data), syseq), expand = expansion(mult = c(0, 0.03))) +
-    scale_fill_discrete(name = "Counts per feature",
     scale_fill_discrete(name = "Counts per feature", 
                         labels = c("Zero", "Singletons", "Doubletons", "3 to 10", "10 to 100", "100 to 1000", "1000 +"))
   return(ggcounts)
