@@ -52,22 +52,16 @@ count_distrib <- function(data){
   # GGPLOT:
   if (nrow(data) < 500) {syseq <- 200}
   else syseq <- 500
-<<<<<<< HEAD
   ggcounts <- ggplot(counts_dist_ggdat) +
     aes(x = reorder(samples, -order), y = value, fill = variable) +
-=======
   ggcounts <- ggplot(counts_dist_ggdat) + 
     aes(x = reorder(samples, -order), y = value, fill = variable) + 
->>>>>>> 23f50d155fa2b9fd1fb2ccfe1412524ecec1364f
     geom_bar(stat = "identity", width = 1, position = position_stack(reverse = T)) +
     xlab("Samples") + ylab("Number of features") +
     theme(axis.text.x = element_blank(), axis.title = element_text(size=14, face="bold")) +
     scale_y_continuous(breaks = seq(0, nrow(data), syseq), expand = expansion(mult = c(0, 0.03))) +
-<<<<<<< HEAD
     scale_fill_discrete(name = "Counts per feature",
-=======
     scale_fill_discrete(name = "Counts per feature", 
->>>>>>> 23f50d155fa2b9fd1fb2ccfe1412524ecec1364f
                         labels = c("Zero", "Singletons", "Doubletons", "3 to 10", "10 to 100", "100 to 1000", "1000 +"))
   return(ggcounts)
 }
