@@ -18,6 +18,52 @@ gg_color_hue <- function(n) {
 }
 
 
+#' Count distribution plot:
+#'
+#' \code{microDA} function that classifies reads according to their counts values and generates a count distribution plot for each sample.
+#' @param data Matrix with counts of sequencing reads.
+#' @keywords distribution counts ggplot
+#' @export
+
+count_distrib <- function(data){
+  counts_dist <- NULL
+  # Fundamental counts values: 0, 1, 2, 3-10, 10-100, 100-1000, >1000
+  for(i in seq(ncol(data))){
+    zero <- sum(data[,i] == 0)
+    one <- sum(data[,i] == 1)
+    two <- sum(data[,i] == 2)
+    r10 <- sum(data[,i] >= 3 & data[,i] < 10)
+    r100 <- sum(data[,i] >= 10 & data[,i] < 100)
+    r1000 <- sum(data[,i] >= 100 & data[,i] < 1000)
+    more <- sum(data[,i] >= 1000)
+    row <- cbind(zero, one, two, r10, r100, r1000, more)
+    counts_dist <- rbind(counts_dist, row)
+    rownames(counts_dist)[i] <- colnames(data)[i]
+    rm(zero, one, two, r10, r100, r1000, more, row)
+  }
+  counts_dist <- as.data.frame(counts_dist) %>% rownames_to_column() %>% dplyr::arrange(zero, one, two)
+  colnames(counts_dist)[1] <- "samples"
+  # Data frame containing order index per sample (based on number of zeros):
+  counts_dist_sort <- as.data.frame(cbind("order" = as.numeric(row.names(counts_dist)), "samples" = counts_dist$samples), stringsAsFactors = F)
+  # Long data format and merge with sample order index:
+  counts_dist_ggdat_pre <- reshape2::melt(counts_dist, id.vars = "samples")
+  counts_dist_ggdat <- merge(counts_dist_ggdat_pre, counts_dist_sort, by = "samples")
+  counts_dist_ggdat$order <- as.numeric(counts_dist_ggdat$order)
+  # GGPLOT:
+  if (nrow(data) < 500) {syseq <- 200}
+  else syseq <- 500
+  ggcounts <- ggplot(counts_dist_ggdat) + 
+    aes(x = reorder(samples, -order), y = value, fill = variable) + 
+    geom_bar(stat = "identity", width = 1, position = position_stack(reverse = T)) +
+    xlab("Samples") + ylab("Number of features") +
+    theme(axis.text.x = element_blank(), axis.title = element_text(size=14, face="bold")) +
+    scale_y_continuous(breaks = seq(0, nrow(data), syseq), expand = expansion(mult = c(0, 0.03))) +
+    scale_fill_discrete(name = "Counts per feature", 
+                        labels = c("Zero", "Singletons", "Doubletons", "3 to 10", "10 to 100", "100 to 1000", "1000 +"))
+  return(ggcounts)
+}
+
+
 #' Rarefaction curves:
 #'
 #' \code{microDA} function from the \code{funs_ggplot} group (expanding \code{ggplot2} functionality).\cr
