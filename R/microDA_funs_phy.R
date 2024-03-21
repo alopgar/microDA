@@ -218,59 +218,79 @@ phy_transform <- function(physeq, transf = "compositional", detection, prevalenc
 
 phy_filltax <- function(data, physeq = TRUE, unclassified = FALSE){
   if(isFALSE(unclassified)){
-    prefxs <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus")
+    prefxs <- c("kingdom", "phylum", "class", "order", "family", "genus")
+  } else if (isTRUE(unclassified)){
+    prefxs <- rep("unclassified", 6)
   }
-  else if (isTRUE(unclassified)){
-    prefxs <- rep("Unclassified", 6)
-  }
-  if(isTRUE(physeq)){tax.clean <- data.frame(tax_table(data))}
-  else {tax.clean <- data}
-  for (i in 1:7){ tax.clean[,i] <- as.character(tax.clean[,i])}
+  tax.clean <- if(physeq) data.frame(tax_table(data)) else data
+  tax.clean[] <- lapply(tax.clean, as.character)
   tax.clean[is.na(tax.clean)] <- ""
   for (i in 1:nrow(tax.clean)){
-    if (tax.clean[i,2] == ""){
-      kingdom <- paste(prefxs[1], tax.clean[i,1], sep = "_")
-      for (j in 2:7){
-        tax.clean[i, j] <- kingdom
-      }
-    } else if (tax.clean[i,3] == ""){
-      phylum <- paste(prefxs[2], tax.clean[i,2], sep = "_")
-      for (j in 3:7){
-        tax.clean[i, j] <- phylum
-      }
-    } else if (tax.clean[i,4] == ""){
-      class <- paste(prefxs[3], tax.clean[i,3], sep = "_")
-      for (j in 4:7){
-        tax.clean[i, j] <- class
-      }
-    } else if (tax.clean[i,5] == ""){
-      order <- paste(prefxs[4], tax.clean[i,4], sep = "_")
-      for (j in 5:7){
-        tax.clean[i, j] <- order
-      }
-    } else if (stringr::str_detect(tax.clean[i,5], "uncultured")){
-      order <- paste(prefxs[4], tax.clean[i,4], "uncult", sep = "_")
-      for (j in 5:7){
-        tax.clean[i, j] <- order
-      }
-    } else if (tax.clean[i,6] == ""){
-      family <- paste(prefxs[5], tax.clean[i,5], sep = "_")
-      for (j in 6:7){
-        tax.clean[i, j] <- family
-      }
-    } else if (stringr::str_detect(tax.clean[i,6], "uncultured")){
-      family <- paste(prefxs[5], tax.clean[i,5], "uncult", sep = "_")
-      for (j in 6:7){
-        tax.clean[i, j] <- family
-      }
-    } else if (tax.clean[i,7] == ""){
-      tax.clean[i,7] <- paste(prefxs[6], tax.clean[i,6], sep = "_")
+    first_empty <- which(tax.clean[i, ] == "")[1]
+    if (!is.na(first_empty)) {
+      fill_value <- if(first_empty == 1) "unclassified" else paste(prefxs[first_empty - 1], tax.clean[i, first_empty - 1], sep = "_")
+      tax.clean[i, first_empty:ncol(tax.clean)] <- fill_value
     }
   }
-  if(isTRUE(physeq)){tax.return <- tax_table(as.matrix(tax.clean))}
-  else {tax.return <- tax.clean}
+  tax.return <- if(physeq) tax_table(as.matrix(tax.clean)) else tax.clean
   return(tax.return)
 }
+                 
+#phy_filltax <- function(data, physeq = TRUE, unclassified = FALSE){
+#  if(isFALSE(unclassified)){
+#    prefxs <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus")
+#  }
+#  else if (isTRUE(unclassified)){
+#    prefxs <- rep("Unclassified", 6)
+#  }
+#  if(isTRUE(physeq)){tax.clean <- data.frame(tax_table(data))}
+#  else {tax.clean <- data}
+#  for (i in 1:7){ tax.clean[,i] <- as.character(tax.clean[,i])}
+#  tax.clean[is.na(tax.clean)] <- ""
+#  for (i in 1:nrow(tax.clean)){
+#    if (tax.clean[i,2] == ""){
+#      kingdom <- paste(prefxs[1], tax.clean[i,1], sep = "_")
+#      for (j in 2:7){
+#        tax.clean[i, j] <- kingdom
+#      }
+#    } else if (tax.clean[i,3] == ""){
+#      phylum <- paste(prefxs[2], tax.clean[i,2], sep = "_")
+#      for (j in 3:7){
+#        tax.clean[i, j] <- phylum
+#      }
+#    } else if (tax.clean[i,4] == ""){
+#      class <- paste(prefxs[3], tax.clean[i,3], sep = "_")
+#      for (j in 4:7){
+#        tax.clean[i, j] <- class
+#      }
+#    } else if (tax.clean[i,5] == ""){
+#      order <- paste(prefxs[4], tax.clean[i,4], sep = "_")
+#      for (j in 5:7){
+#        tax.clean[i, j] <- order
+#      }
+#    } else if (stringr::str_detect(tax.clean[i,5], "uncultured")){
+#      order <- paste(prefxs[4], tax.clean[i,4], "uncult", sep = "_")
+#      for (j in 5:7){
+#        tax.clean[i, j] <- order
+#      }
+#    } else if (tax.clean[i,6] == ""){
+#      family <- paste(prefxs[5], tax.clean[i,5], sep = "_")
+#      for (j in 6:7){
+#        tax.clean[i, j] <- family
+#      }
+#    } else if (stringr::str_detect(tax.clean[i,6], "uncultured")){
+#      family <- paste(prefxs[5], tax.clean[i,5], "uncult", sep = "_")
+#      for (j in 6:7){
+#        tax.clean[i, j] <- family
+#      }
+#    } else if (tax.clean[i,7] == ""){
+#      tax.clean[i,7] <- paste(prefxs[6], tax.clean[i,6], sep = "_")
+#    }
+#  }
+#  if(isTRUE(physeq)){tax.return <- tax_table(as.matrix(tax.clean))}
+#  else {tax.return <- tax.clean}
+#  return(tax.return)
+#}
 
 
 #' Remove NA taxonomy columns:
