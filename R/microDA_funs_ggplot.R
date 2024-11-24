@@ -169,8 +169,6 @@ make_sunburst <- function(sunreads, sunfeat, nranks, aggregate = T, plottype = 1
   sunclass <- as.data.frame(apply(sunclass, 2, function(x){gsub("-", "_", x)}))
   sunclass <- unite(sunclass, col=Ranking, seq(nranks), sep = "-")
 
-  sunreads <- sunreads
-  sunrd <- apply(sunreads, 1, mean)
   sunra <- apply(sunreads, 2, function(x){x/sum(x)*100})
   sunra <- apply(sunra, 1, mean)
 
@@ -179,7 +177,7 @@ make_sunburst <- function(sunreads, sunfeat, nranks, aggregate = T, plottype = 1
     sunb <- aggregate(sunra ~ Ranking, sunb, sum)
   }
 
-  if(plottype == 1){sb <- sunburst(sunb, legend = F, count = TRUE, width = "100%", height = 500)}
+  if(plottype == 1){sb <- sunburst(sunb, legend = F, count = FALSE, width = "100%", height = 600)}
   else if(plottype == 2){sb <- sund2b(sunb, width = "100%", height = 600)}
   else{stop()}
 
