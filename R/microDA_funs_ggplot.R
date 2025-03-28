@@ -475,7 +475,7 @@ Ellipse_PCA <- function(pca, phenot, factor, fcolors, comps = c(1,2), title = TR
   if(isTRUE(title)){title(paste("PCA for LRA:", level, "level"))}
   abline(v = 0, h = 0, col = "gray", lty = 2)
   #text(pca.coords, labels = rownames(pca.coords), col = fcolors[as.numeric(as.factor(classes))], cex = 0.7)
-  MicroDA::CIplot_biv(pca$x[,comps[1]], pca$x[,comps[2]], group = as.factor(classes), groupcols = fcolors, add = T,
+  microDA::CIplot_biv(pca$x[,comps[1]], pca$x[,comps[2]], group = as.factor(classes), groupcols = fcolors, add = T,
                       shade = T, shownames = F, showcentr = T)
 }
 
