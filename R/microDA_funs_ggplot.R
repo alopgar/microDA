@@ -10,7 +10,7 @@
 #' @examples
 #' a <- gg_color_hue(10)
 #' # Visualize colors:
-#' colortools::pizza(a)
+#' pie(rep(1, length(a)), col = a, labels = a)
 
 gg_color_hue <- function(n) {
   hues = seq(15, 375, length = n + 1)
@@ -290,7 +290,6 @@ CIplot_biv <- function(x, y, group, wt=rep(1/length(x),length(x)), varnames=c("x
                        shownames=TRUE, showcentr=FALSE, xlim=c(NA,NA), ylim=c(NA,NA), lty=1, lwd=1,
                        add=FALSE, alpha=0.95, ellipse=0, shade=FALSE, frac=0.01, cex=1.2){
   # first find min and max of all ellipses
-  require(ellipse)
   groups <- sort(unique(group))
   xmin <- mean(x)
   xmax <- mean(x)
@@ -305,7 +304,7 @@ CIplot_biv <- function(x, y, group, wt=rep(1/length(x),length(x)), varnames=c("x
       meanpoints <- as.numeric(apply(points, 2, mean))
       rconf  <- sqrt(2 * (npts-1) * qf(alpha, 2, npts-2)/(npts*(npts-2)))
       conf.elip <- ellipse::ellipse(covpoints/npts, centre=meanpoints, level=alpha)
-      if(ellipse<0) conf.elip <- ellipse(covpoints, center=meanpoints, level=alpha)
+      if(ellipse<0) conf.elip <- ellipse::ellipse(covpoints, center=meanpoints, level=alpha)
       xmin <- min(xmin, conf.elip[,1])
       xmax <- max(xmax, conf.elip[,1])
       ymin <- min(ymin, conf.elip[,2])

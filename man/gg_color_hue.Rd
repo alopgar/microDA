@@ -20,7 +20,7 @@ sequentially from 15 to 375 according to the number of colors desired (n).
 \examples{
 a <- gg_color_hue(10)
 # Visualize colors:
-colortools::pizza(a)
+pie(rep(1, length(a)), col = a, labels = a)
 }
 \keyword{color}
 \keyword{hcl}

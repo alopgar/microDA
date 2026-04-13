@@ -27,7 +27,6 @@ Still in **ALPHA** state.
 - **VennDiagram**: `install.packages("VennDiagram")`
 - **ggrepel**: `install.packages("ggrepel")`
 - **ggordiplots**: `remotes::install_github("jfq3/ggordiplots")`
-- **colortools**: `devtools::install_github('gastonstat/colortools')`
 
 # Acknowledgements
 This repository uses functions from multiple R packages. Please cite R and those R packages when using it.

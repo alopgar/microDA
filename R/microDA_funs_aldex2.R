@@ -97,7 +97,7 @@ aldex.ggplot <- function(aldex.test, aldex.effect, taxonomy = NULL, taxrank = NU
 #' Effect size calculation for GLM model:
 #'
 #' \code{microDA} function from the \code{funs_aldex2} group (expanding \code{ALDEx2} functionality).\cr
-#' Calculates effet size when using GLM with two factors in a similar way to \code{\link[ALDEx2]{aldex.effect}}.\cr
+#' Calculates effect size when using GLM with two factors in a similar way to \code{\link[ALDEx2]{aldex.effect}}.\cr
 #' \code{ALDEx2} package required. THIS IS A TEST!!!
 #' @param clr Data frame transformed to CLR.
 #' @param metadata Data frame with phenotypic variables including factors.

@@ -35,8 +35,5 @@ Imports:
     VennDiagram,
     reshape2,
     microbiome
-Remotes:
-	gastonstat/colortools
 Suggests: 
     tidyverse
-
