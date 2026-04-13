@@ -510,31 +510,31 @@ plotVenn <- function(vlist, ...) {
     return(out)
   }
   # Overlap calculation
-  ovlp <- calculate.overlap(vlist)
+  ovlp <- VennDiagram::calculate.overlap(vlist)
   # Venn diagrams according to elements in the list (1 to 4)
   grid.newpage()
   if (length(vlist) == 1) {
     ovlp_sort <- list("A-U"=ovlp[[1]])
-    out <- draw.single.venn(ovlpsum("A"), ...)
+    out <- VennDiagram::draw.single.venn(ovlpsum("A"), ...)
   }
   if (length(vlist) == 2) { # doesnt work as 3 or 4 diagram, only needs intersection sizes
     ovlp_sort <- list("A-U"=ovlp$a1, "B-U"=ovlp$a2, "A-B"=ovlp$a3)
-    out <- draw.pairwise.venn(ovlpsum("A"), ovlpsum("B"), ovlpsum("A.+B"), ...)
+    out <- VennDiagram::draw.pairwise.venn(ovlpsum("A"), ovlpsum("B"), ovlpsum("A.+B"), ...)
   }
   if (length(vlist) == 3) {
     ovlp_sort <- list("A-U"=ovlp$a1, "B-U"=ovlp$a3, "C-U"=ovlp$a7, "A-B"=ovlp$a2, "A-C"=ovlp$a4,
                       "B-C"=ovlp$a6, "A-B-C"=ovlp$a5)
-    out <- draw.triple.venn(ovlpsum("A"), ovlpsum("B"), ovlpsum("C"), ovlpsum("A.+B"), ovlpsum("B.+C"),
-                            ovlpsum("A.+C"), ovlpsum("A.+B.+C"), ...)
+    out <- VennDiagram::draw.triple.venn(ovlpsum("A"), ovlpsum("B"), ovlpsum("C"), ovlpsum("A.+B"), ovlpsum("B.+C"),
+                                         ovlpsum("A.+C"), ovlpsum("A.+B.+C"), ...)
   }
   if (length(vlist) == 4) {
     ovlp_sort <- list("A-U"=ovlp$a9, "B-U"=ovlp$a14, "C-U"=ovlp$a1, "D-U"=ovlp$a3, "A-B"=ovlp$a15,
                       "A-C"=ovlp$a4, "A-D"=ovlp$a10, "B-C"=ovlp$a13, "B-D"=ovlp$a8, "C-D"=ovlp$a2,
                       "A-B-C"=ovlp$a12, "A-B-D"=ovlp$a11, "A-C-D"=ovlp$a5, "B-C-D"=ovlp$a7, "A-B-C-D"=ovlp$a6)
-    out <- draw.quad.venn(ovlpsum("A"), ovlpsum("B"), ovlpsum("C"), ovlpsum("D"), ovlpsum("A.+B"),
-                          ovlpsum("A.+C"), ovlpsum("A.+D"), ovlpsum("B.+C"), ovlpsum("B.+D"),
-                          ovlpsum("C.+D"), ovlpsum("A.+B.+C"), ovlpsum("A.+B.+D"), ovlpsum("A.+C.+D"),
-                          ovlpsum("B.+C.+D"), ovlpsum("A.+B.+C.+D"), ...)
+    out <- VennDiagram::draw.quad.venn(ovlpsum("A"), ovlpsum("B"), ovlpsum("C"), ovlpsum("D"), ovlpsum("A.+B"),
+                                       ovlpsum("A.+C"), ovlpsum("A.+D"), ovlpsum("B.+C"), ovlpsum("B.+D"),
+                                       ovlpsum("C.+D"), ovlpsum("A.+B.+C"), ovlpsum("A.+B.+D"), ovlpsum("A.+C.+D"),
+                                       ovlpsum("B.+C.+D"), ovlpsum("A.+B.+C.+D"), ...)
   }
   if (!exists("out"))
     out <- "Oops"
