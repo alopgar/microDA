@@ -17,7 +17,7 @@ by a uniform distribution between 0.1\*DL and DL) values.}
 methods on individual compositions.\cr
 }
 \details{
-The two methods computed here are described in Lubbe et al (2021) (\link{https://doi.org/10.1016/j.chemolab.2021.104248}).
+The two methods computed here are described in Lubbe et al (2021) (\url{https://doi.org/10.1016/j.chemolab.2021.104248}).
 }
 \keyword{CLR}
 \keyword{compositions}

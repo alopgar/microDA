@@ -17,6 +17,7 @@
 #' Defaults TRUE.
 #' @param clrweights Custom weights for each feature. Either a vector with weights or FALSE (default, no weights).
 #' @keywords CLR easyCODA compositions
+#' 
 #' @export
 
 CLR_calc <- function(data, zerorep="cmultrepl", mode="eCODA", closure=100, transpose=TRUE, clrweights=FALSE){
@@ -103,7 +104,7 @@ ALR_calc <- function(data, reference, zerorep="cmultrepl", closure=100, transpos
 #' @param comp Input composition (i.e., one sample with compositional features).
 #' @param method Zero replacement method. Can take \strong{"const"} (replacement by 0.5\*DL) and \strong{"unif"} (replacement 
 #' by a uniform distribution between 0.1\*DL and DL) values.
-#' @details The two methods computed here are described in Lubbe et al (2021) (\link{https://doi.org/10.1016/j.chemolab.2021.104248}).
+#' @details The two methods computed here are described in Lubbe et al (2021) (\url{https://doi.org/10.1016/j.chemolab.2021.104248}).
 #' @keywords CLR easyCODA compositions
 #' @export
 
