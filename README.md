@@ -1,6 +1,6 @@
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 [![Last version](https://img.shields.io/github/tag/alopgar/microDA.svg)](https://img.shields.io/github/tag/alopgar/microDA.svg)
-[![R-CMD-check](https://github.com/alopgar/microDA/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/alopgar/microDA/actions)
+<!-- [![R-CMD-check](https://github.com/alopgar/microDA/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/alopgar/microDA/actions) -->
 <!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/microDA)](https://cran.r-project.org/package=microDA) -->
 
 # microDA
