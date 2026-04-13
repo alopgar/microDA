@@ -33,8 +33,10 @@ Imports:
     sunburstR,
     ellipse,
     VennDiagram,
-    colortools,
     reshape2,
     microbiome
+Remotes:
+	gastonstat/colortools
 Suggests: 
     tidyverse
+
