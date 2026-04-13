@@ -512,7 +512,7 @@ plotVenn <- function(vlist, ...) {
   # Overlap calculation
   ovlp <- VennDiagram::calculate.overlap(vlist)
   # Venn diagrams according to elements in the list (1 to 4)
-  grid.newpage()
+  grid::grid.newpage()
   if (length(vlist) == 1) {
     ovlp_sort <- list("A-U"=ovlp[[1]])
     out <- VennDiagram::draw.single.venn(ovlpsum("A"), ...)
